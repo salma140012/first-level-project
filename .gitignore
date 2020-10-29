@@ -1,32 +1,355 @@
-# Prerequisites
-*.d
+#include <iostream>
+#include <numeric>
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
+using namespace std;
 
-# Precompiled Headers
-*.gch
-*.pch
+int mode(int m_array[], int size)
+{
+	int counter = 1;
+	int max = 0;
+	int a_mode = m_array[0];
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
+	for (int i = 0; i < size - 1; i++)
+	{
+		if (m_array[i] == m_array[i+1])
+		{
+			counter++;
+			if (counter > max)
+			{
+				max = counter;
+				a_mode = m_array[i];
+			}
+		}
+	}
 
-# Fortran module files
-*.mod
-*.smod
+          if (max==0)
+			a_mode=-1;
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
+	return a_mode;
+}
 
-# Executables
-*.exe
-*.out
-*.app
+int *sort_numbers (int m_array[], int size, bool S_option)
+{
+    int temp;
+    int *S_arr ;
+    S_arr=new int[size];
+    for (int i=0;i<size ;i++)
+    {
+        S_arr[i]=m_array[i];
+    }
+
+
+
+   if (S_option ==0) {
+  for(int i=0;i<size;i++)
+	{
+		for(int j=i+1;j<size;j++)
+		{
+			if(S_arr[i]< S_arr[j])
+			{
+				temp  =S_arr[i];
+				S_arr[i]=S_arr[j];
+				S_arr[j]=temp;
+			}
+		}
+	}
+   }
+
+   else if (S_option ==1) {
+    for(int i=0;i<size;i++)
+	{
+		for(int j=i+1;j<size;j++)
+		{
+			if(S_arr[i]>S_arr[j])
+			{
+				temp  =S_arr[i];
+				S_arr[i]=S_arr[j];
+				S_arr[j]=temp;
+			}
+		}
+	}
+   }
+
+   return S_arr;
+}
+
+
+double A_Median(int m_array[], int size)
+{
+    // First we sort the array
+    int *m_sort= sort_numbers(m_array, size, 1 );
+
+    // check for even case
+    if (size % 2 != 0)
+        return (double)m_sort[size / 2];
+
+    return (double)(m_sort[(size - 1) / 2] + m_sort[size / 2]) / 2.0;
+}
+
+double a_mean(int m_array[],int size){
+
+ {
+   int i;
+   float sum = 0.0, avg;
+   for(i = 0; i <size; i++)
+
+    sum += m_array[i];
+    avg = sum / size;
+
+   return  avg;
+}
+}
+
+int getRange(int arr[], int size)
+{
+    int min = arr[0];
+    int max = arr[0];
+
+   for(int i=0; i<size; i++) {
+      if(min>arr[i]) {
+         min=arr[i];
+      }
+   }
+
+   for(int j=0; j<size; j++) {
+      if(max<arr[j]) {
+         max=arr[j];
+      }
+   }
+   return max-min;
+}
+
+int **element_frequency(int arr[],int size)
+{
+    int updated_size = 1;
+
+    // Pick all elements one by one
+    for (int i = 1; i < size; i++) {
+        int j = 0;
+        for (j = 0; j < i; j++)
+            if (arr[i] == arr[j])
+                break;
+
+        // If not printed earlier, then print it
+        if (i == j)
+            updated_size++;
+    }
+
+    int **F_arr;
+    F_arr=new int *[2];
+
+    for (int i =0 ;i<2;i++)
+    {
+        F_arr[i]=new int [updated_size];
+    }
+
+    int frequency,counter ;
+    int n=0;
+    for (int i=0 ;i<size ;i++)
+    {
+        frequency=0;
+        for (int m=0 ;m<i ;m++)
+        {
+            if (arr[i]==arr[m])
+            {
+                frequency++;
+            }
+        }
+        if (frequency==0)
+        {
+            counter=1;
+            for (int m=i+1 ;m<size ;m++)
+             {
+                if (arr[i]==arr[m])
+                    counter++;
+             }
+            F_arr[0][n]=arr[i];
+            F_arr[1][n]=counter;
+            n++;
+         }
+    }
+    return F_arr;
+}
+
+
+
+int *CircularShifter(int arr[],int size,int shift_num)
+{
+        int temp=0;
+        int *New_arr;
+        New_arr=new int [size];
+        for (int i=size-shift_num;i<size;i++)
+        {
+            New_arr[temp]=arr[i];
+            temp++;
+
+        }
+        for( int j=0;j<size-shift_num;j++)
+        {
+            New_arr[temp]=arr[j];
+            temp++;
+        }
+
+        return New_arr;
+    }
+
+
+int main()
+{
+    cout << "enter the size of your array : ";
+    int e_number;
+    cin>>e_number;
+    int i;
+   // int temp = 0;
+    int array[e_number];
+cout<<"please enter the elements in your array"<<endl;
+for (i = 0; i < e_number; i++) {
+    cin >> array[i];
+}
+
+
+label2:
+cout<<"Please choose an item from the following menu : "<<endl;
+cout<<"Enter (1)- To get the mode"<<endl;
+cout<<"Enter (2)- To get the median"<<endl;
+cout<<"Enter (3)- To get the mean"<<endl;
+cout<<"Enter (4)- To sort the elements"<<endl;
+cout<<"Enter (5)- To get the range"<<endl;
+cout<<"Enter (6)- To get the frequency of each element"<<endl;
+cout<<"Enter (7)- To get the element circular shifter"<<endl;
+cout<<"Enter (0)- To Exit"<<endl;
+
+
+ int choice;
+  while (choice!=0)
+    {
+    cin>>choice;
+    switch(choice)
+    {
+case 1:
+    {
+        cout << "The mode of the array is: " << mode(array,e_number) << endl;
+        cout<<"########################################"<<endl;
+        goto label2;
+        break;
+    }
+
+case 2:
+    {
+        cout << "The array median is: " << A_Median(array,e_number) << endl;
+        cout<<"########################################"<<endl;
+        goto label2;
+        break;
+    }
+
+case 3:
+    {
+        cout <<" The array mean is "<<a_mean(array,e_number)<<endl;
+        cout<<"########################################"<<endl;
+        goto label2;
+        break;
+    }
+    case 4:
+    {
+           bool option ;
+           cout << " For descending order Please enter 0 , For ascending order please enter 1" << endl;
+           cin>> option;
+           int *sort= sort_numbers(array, e_number, option );
+           cout <<"The sorted array is : " ;
+       for (int i=0 ;i<e_number ;i++ )
+       {
+        cout << sort[i] <<"  " ;
+       }
+           cout<<endl ;
+           cout<<"########################################"<<endl;
+           goto label2;
+           break;
+    }
+
+case 5:
+      {
+          cout <<"The Range is : "<<getRange(array,e_number)<<endl;
+          cout<<"########################################"<<endl;
+          goto label2;
+          break;
+
+      }
+case 6:
+    {
+    //first we repeat the step of changing the size of the array based on the number of unique elements present in the array to pass that size to the result_array
+          cout <<"The frequency of elements  :";
+          int updated_size = 1;
+
+    // Pick all elements one by one
+    for (int i = 1; i < e_number; i++)
+        {
+        int j = 0;
+        for (j = 0; j < i; j++)
+        if (array[i] == array[j])
+        break;
+
+        // If not printed earlier, then print it
+        if (i == j)
+            updated_size++;
+        }
+
+          int **result_array;
+          result_array=new int*[2];
+          for (int i=0;i<2;i++)
+           {
+             result_array[i]=new int [updated_size];
+           }
+
+         result_array=element_frequency(array,e_number);
+         cout <<"{";
+         for (int i=0;i<updated_size;i++)
+          {
+             cout <<"{"<<result_array[0][i]<<","<<result_array[1][i]<<"}";
+          }
+    cout <<"}"<<endl;
+    cout<<"########################################"<<endl;
+    goto label2;
+    break;
+
+      }
+
+case 7:
+    {
+    int shift_argument;
+    int *Shifted_array;
+
+    cout<<"Enter number of circular shifts please : ";
+    cin>>shift_argument;
+
+    if (shift_argument<0||shift_argument>e_number)
+    {
+        cout<<"NULL";
+    }
+    else
+    {
+        Shifted_array= CircularShifter(array,e_number,shift_argument);
+        for (int i =0 ;i<e_number ;i++ )
+        {
+            cout <<Shifted_array[i]<<" ";
+       }
+    }
+        cout<<endl;
+         cout<<"########################################"<<endl;
+        goto label2;
+
+    break;
+    }
+    case 0:
+        {
+    cout<<"Thank you for using our program"<<endl;
+    continue;
+    default:cout<<"Your choice is invalid"<<endl;
+    break;
+        }
+    }
+}
+    return 0;
+
+}
+
+
